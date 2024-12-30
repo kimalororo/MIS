@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MIS.Models.ViewModels.DeliveryVM>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Поставки</h2>
+
+    <!-- Панель поиска и фильтров -->
+    <div class="d-flex justify-content-between mb-3">
+        <div class="input-group w-50">
+            <input type="text" class="form-control" placeholder="Найти ..." id="search" />
+            <button class="btn btn-outline-primary" onclick="search()">Найти</button>
+        </div>
+        <div>
+            <button class="btn btn-outline-secondary" onclick="filter('month')">За месяц</button>
+            <button class="btn btn-outline-secondary" onclick="filter('year')">За год</button>
+            <button class="btn btn-outline-secondary" onclick="filter('all')">За все время</button>
+        </div>
+    </div>
+
+    <!-- Таблица поставок -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>№</th>
+                    <th>Дата</th>
+                    <th>Поставщик</th>
+                    <th>Количество книг</th>
+                    <th>Принявший работник</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">@item.DeliveryId</td>
+                            <td>@item.Date.ToString("dd.MM.yyyy")</td>
+                            <td>@item.DeliverierName</td>
+                            <td class="text-center">@item.BookCount</td>
+                            <td>@item.EmployeeName</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">Нет данных для отображения</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Сценарий для фильтрации -->
+<script>
+    function filter(period) {
+        const search = document.getElementById("search").value;
+        const url = `?period=${period}&search=${encodeURIComponent(search)}`;
+        window.location.href = url;
+    }
+
+    function search() {
+        const search = document.getElementById("search").value;
+        const url = `?search=${encodeURIComponent(search)}`;
+        window.location.href = url;
+    }
+</script>

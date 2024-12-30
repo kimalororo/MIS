@@ -1,0 +1,736 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище MISModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="AuthorId" />
+          </Key>
+          <Property Name="AuthorId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Patronymic" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="BookId" />
+          </Key>
+          <Property Name="BookId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ShelfId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Year" Type="date" Nullable="false" />
+          <Property Name="Pages" Type="int" Nullable="false" />
+          <Property Name="Price" Type="bigint" Nullable="false" />
+          <Property Name="PublisherId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookAuthor">
+          <Key>
+            <PropertyRef Name="BookId" />
+            <PropertyRef Name="AuthorId" />
+          </Key>
+          <Property Name="BookId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AuthorId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookDeliveries">
+          <Key>
+            <PropertyRef Name="DeliveryId" />
+            <PropertyRef Name="BookId" />
+          </Key>
+          <Property Name="DeliveryId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BookId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookGenre">
+          <Key>
+            <PropertyRef Name="BookId" />
+            <PropertyRef Name="GenreId" />
+          </Key>
+          <Property Name="BookId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GenreId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookShelf">
+          <Key>
+            <PropertyRef Name="BookId" />
+            <PropertyRef Name="ShelfId" />
+          </Key>
+          <Property Name="BookId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ShelfId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Counter" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Deliverier">
+          <Key>
+            <PropertyRef Name="DeliverierId" />
+          </Key>
+          <Property Name="DeliverierId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Delivery">
+          <Key>
+            <PropertyRef Name="DeliveryId" />
+          </Key>
+          <Property Name="DeliveryId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="WorkerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DeliverierId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="GenreId" />
+          </Key>
+          <Property Name="GenreId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="PostId" />
+          </Key>
+          <Property Name="PostId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Publsher">
+          <Key>
+            <PropertyRef Name="PublisherId" />
+          </Key>
+          <Property Name="PublisherId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Shelf">
+          <Key>
+            <PropertyRef Name="ShelfId" />
+          </Key>
+          <Property Name="ShelfId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Location" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Login" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Patronymic" Type="varchar" MaxLength="30" />
+          <Property Name="PostId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="Author wrote books">
+          <End Role="Author" Type="Self.Author" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BookAuthor" Type="Self.BookAuthor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="AuthorId" />
+            </Principal>
+            <Dependent Role="BookAuthor">
+              <PropertyRef Name="AuthorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Book contains to genres">
+          <End Role="Book" Type="Self.Book" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BookGenre" Type="Self.BookGenre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BookId" />
+            </Principal>
+            <Dependent Role="BookGenre">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Book is included in the deliveries">
+          <End Role="Book" Type="Self.Book" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BookDeliveries" Type="Self.BookDeliveries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BookId" />
+            </Principal>
+            <Dependent Role="BookDeliveries">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Book is published by publisher">
+          <End Role="Publsher" Type="Self.Publsher" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publsher">
+              <PropertyRef Name="PublisherId" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="PublisherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Book is written by authors">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="BookAuthor" Type="Self.BookAuthor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BookId" />
+            </Principal>
+            <Dependent Role="BookAuthor">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Books located on shelfes">
+          <End Role="Book" Type="Self.Book" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BookShelf" Type="Self.BookShelf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BookId" />
+            </Principal>
+            <Dependent Role="BookShelf">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Deliverier deliveres books">
+          <End Role="Deliverier" Type="Self.Deliverier" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Delivery" Type="Self.Delivery" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deliverier">
+              <PropertyRef Name="DeliverierId" />
+            </Principal>
+            <Dependent Role="Delivery">
+              <PropertyRef Name="DeliverierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Delivery includes books">
+          <End Role="Delivery" Type="Self.Delivery" Multiplicity="1" />
+          <End Role="BookDeliveries" Type="Self.BookDeliveries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Delivery">
+              <PropertyRef Name="DeliveryId" />
+            </Principal>
+            <Dependent Role="BookDeliveries">
+              <PropertyRef Name="DeliveryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Genre includes books">
+          <End Role="Genre" Type="Self.Genre" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BookGenre" Type="Self.BookGenre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="GenreId" />
+            </Principal>
+            <Dependent Role="BookGenre">
+              <PropertyRef Name="GenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Shelf contains books">
+          <End Role="Shelf" Type="Self.Shelf" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BookShelf" Type="Self.BookShelf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shelf">
+              <PropertyRef Name="ShelfId" />
+            </Principal>
+            <Dependent Role="BookShelf">
+              <PropertyRef Name="ShelfId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="User accepted the delivery">
+          <End Role="User" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Delivery" Type="Self.Delivery" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Delivery">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="User is in post">
+          <End Role="Post" Type="Self.Post" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище MISModelContainer">
+          <EntitySet Name="Author" EntityType="Self.Author" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookAuthor" EntityType="Self.BookAuthor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookDeliveries" EntityType="Self.BookDeliveries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookGenre" EntityType="Self.BookGenre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookShelf" EntityType="Self.BookShelf" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Deliverier" EntityType="Self.Deliverier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Delivery" EntityType="Self.Delivery" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genre" EntityType="Self.Genre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Publsher" EntityType="Self.Publsher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Shelf" EntityType="Self.Shelf" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="Author wrote books" Association="Self.Author wrote books">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="BookAuthor" EntitySet="BookAuthor" />
+          </AssociationSet>
+          <AssociationSet Name="Book contains to genres" Association="Self.Book contains to genres">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="BookGenre" EntitySet="BookGenre" />
+          </AssociationSet>
+          <AssociationSet Name="Book is included in the deliveries" Association="Self.Book is included in the deliveries">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="BookDeliveries" EntitySet="BookDeliveries" />
+          </AssociationSet>
+          <AssociationSet Name="Book is published by publisher" Association="Self.Book is published by publisher">
+            <End Role="Publsher" EntitySet="Publsher" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
+          <AssociationSet Name="Book is written by authors" Association="Self.Book is written by authors">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="BookAuthor" EntitySet="BookAuthor" />
+          </AssociationSet>
+          <AssociationSet Name="Books located on shelfes" Association="Self.Books located on shelfes">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="BookShelf" EntitySet="BookShelf" />
+          </AssociationSet>
+          <AssociationSet Name="Deliverier deliveres books" Association="Self.Deliverier deliveres books">
+            <End Role="Deliverier" EntitySet="Deliverier" />
+            <End Role="Delivery" EntitySet="Delivery" />
+          </AssociationSet>
+          <AssociationSet Name="Delivery includes books" Association="Self.Delivery includes books">
+            <End Role="Delivery" EntitySet="Delivery" />
+            <End Role="BookDeliveries" EntitySet="BookDeliveries" />
+          </AssociationSet>
+          <AssociationSet Name="Genre includes books" Association="Self.Genre includes books">
+            <End Role="Genre" EntitySet="Genre" />
+            <End Role="BookGenre" EntitySet="BookGenre" />
+          </AssociationSet>
+          <AssociationSet Name="Shelf contains books" Association="Self.Shelf contains books">
+            <End Role="Shelf" EntitySet="Shelf" />
+            <End Role="BookShelf" EntitySet="BookShelf" />
+          </AssociationSet>
+          <AssociationSet Name="User accepted the delivery" Association="Self.User accepted the delivery">
+            <End Role="User" EntitySet="User" />
+            <End Role="Delivery" EntitySet="Delivery" />
+          </AssociationSet>
+          <AssociationSet Name="User is in post" Association="Self.User is in post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MISModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="AuthorId" />
+          </Key>
+          <Property Name="AuthorId" Type="Guid" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Book" Relationship="Self.BookAuthor" FromRole="Author" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="BookId" />
+          </Key>
+          <Property Name="BookId" Type="Guid" Nullable="false" />
+          <Property Name="ShelfId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Year" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Pages" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Int64" Nullable="false" />
+          <Property Name="PublisherId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Publsher" Relationship="Self.Book_is_published_by_publisher" FromRole="Book" ToRole="Publsher" />
+          <NavigationProperty Name="BookShelf" Relationship="Self.Books_located_on_shelfes" FromRole="Book" ToRole="BookShelf" />
+          <NavigationProperty Name="Author" Relationship="Self.BookAuthor" FromRole="Book" ToRole="Author" />
+          <NavigationProperty Name="Delivery" Relationship="Self.BookDeliveries" FromRole="Book" ToRole="Delivery" />
+          <NavigationProperty Name="Genre" Relationship="Self.BookGenre" FromRole="Book" ToRole="Genre" />
+        </EntityType>
+        <EntityType Name="BookShelf">
+          <Key>
+            <PropertyRef Name="BookId" />
+            <PropertyRef Name="ShelfId" />
+          </Key>
+          <Property Name="BookId" Type="Guid" Nullable="false" />
+          <Property Name="ShelfId" Type="Guid" Nullable="false" />
+          <Property Name="Counter" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Book" Relationship="Self.Books_located_on_shelfes" FromRole="BookShelf" ToRole="Book" />
+          <NavigationProperty Name="Shelf" Relationship="Self.Shelf_contains_books" FromRole="BookShelf" ToRole="Shelf" />
+        </EntityType>
+        <EntityType Name="Deliverier">
+          <Key>
+            <PropertyRef Name="DeliverierId" />
+          </Key>
+          <Property Name="DeliverierId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Delivery" Relationship="Self.Deliverier_deliveres_books" FromRole="Deliverier" ToRole="Delivery" />
+        </EntityType>
+        <EntityType Name="Delivery">
+          <Key>
+            <PropertyRef Name="DeliveryId" />
+          </Key>
+          <Property Name="DeliveryId" Type="Guid" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="WorkerId" Type="Guid" Nullable="false" />
+          <Property Name="DeliverierId" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Deliverier" Relationship="Self.Deliverier_deliveres_books" FromRole="Delivery" ToRole="Deliverier" />
+          <NavigationProperty Name="User" Relationship="Self.User_accepted_the_delivery" FromRole="Delivery" ToRole="User" />
+          <NavigationProperty Name="Book" Relationship="Self.BookDeliveries" FromRole="Delivery" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="GenreId" />
+          </Key>
+          <Property Name="GenreId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Book" Relationship="Self.BookGenre" FromRole="Genre" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="PostId" />
+          </Key>
+          <Property Name="PostId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.User_is_in_post" FromRole="Post" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Publsher">
+          <Key>
+            <PropertyRef Name="PublisherId" />
+          </Key>
+          <Property Name="PublisherId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Book" Relationship="Self.Book_is_published_by_publisher" FromRole="Publsher" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="Shelf">
+          <Key>
+            <PropertyRef Name="ShelfId" />
+          </Key>
+          <Property Name="ShelfId" Type="Guid" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="BookShelf" Relationship="Self.Shelf_contains_books" FromRole="Shelf" ToRole="BookShelf" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PostId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Delivery" Relationship="Self.User_accepted_the_delivery" FromRole="User" ToRole="Delivery" />
+          <NavigationProperty Name="Post" Relationship="Self.User_is_in_post" FromRole="User" ToRole="Post" />
+        </EntityType>
+        <Association Name="Book_is_published_by_publisher">
+          <End Role="Publsher" Type="Self.Publsher" Multiplicity="1" />
+          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publsher">
+              <PropertyRef Name="PublisherId" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="PublisherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Books_located_on_shelfes">
+          <End Role="Book" Type="Self.Book" Multiplicity="1" />
+          <End Role="BookShelf" Type="Self.BookShelf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BookId" />
+            </Principal>
+            <Dependent Role="BookShelf">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Shelf_contains_books">
+          <End Role="Shelf" Type="Self.Shelf" Multiplicity="1" />
+          <End Role="BookShelf" Type="Self.BookShelf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shelf">
+              <PropertyRef Name="ShelfId" />
+            </Principal>
+            <Dependent Role="BookShelf">
+              <PropertyRef Name="ShelfId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Deliverier_deliveres_books">
+          <End Role="Deliverier" Type="Self.Deliverier" Multiplicity="1" />
+          <End Role="Delivery" Type="Self.Delivery" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deliverier">
+              <PropertyRef Name="DeliverierId" />
+            </Principal>
+            <Dependent Role="Delivery">
+              <PropertyRef Name="DeliverierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="User_accepted_the_delivery">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Delivery" Type="Self.Delivery" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Delivery">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="User_is_in_post">
+          <End Role="Post" Type="Self.Post" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BookAuthor">
+          <End Role="Author" Type="Self.Author" Multiplicity="*" />
+          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+        </Association>
+        <Association Name="BookDeliveries">
+          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+          <End Role="Delivery" Type="Self.Delivery" Multiplicity="*" />
+        </Association>
+        <Association Name="BookGenre">
+          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+          <End Role="Genre" Type="Self.Genre" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="MISEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Author" EntityType="Self.Author" />
+          <EntitySet Name="Book" EntityType="Self.Book" />
+          <EntitySet Name="BookShelf" EntityType="Self.BookShelf" />
+          <EntitySet Name="Deliverier" EntityType="Self.Deliverier" />
+          <EntitySet Name="Delivery" EntityType="Self.Delivery" />
+          <EntitySet Name="Genre" EntityType="Self.Genre" />
+          <EntitySet Name="Post" EntityType="Self.Post" />
+          <EntitySet Name="Publsher" EntityType="Self.Publsher" />
+          <EntitySet Name="Shelf" EntityType="Self.Shelf" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="Book_is_published_by_publisher" Association="Self.Book_is_published_by_publisher">
+            <End Role="Publsher" EntitySet="Publsher" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
+          <AssociationSet Name="Books_located_on_shelfes" Association="Self.Books_located_on_shelfes">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="BookShelf" EntitySet="BookShelf" />
+          </AssociationSet>
+          <AssociationSet Name="Shelf_contains_books" Association="Self.Shelf_contains_books">
+            <End Role="Shelf" EntitySet="Shelf" />
+            <End Role="BookShelf" EntitySet="BookShelf" />
+          </AssociationSet>
+          <AssociationSet Name="Deliverier_deliveres_books" Association="Self.Deliverier_deliveres_books">
+            <End Role="Deliverier" EntitySet="Deliverier" />
+            <End Role="Delivery" EntitySet="Delivery" />
+          </AssociationSet>
+          <AssociationSet Name="User_accepted_the_delivery" Association="Self.User_accepted_the_delivery">
+            <End Role="User" EntitySet="User" />
+            <End Role="Delivery" EntitySet="Delivery" />
+          </AssociationSet>
+          <AssociationSet Name="User_is_in_post" Association="Self.User_is_in_post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="BookAuthor" Association="Self.BookAuthor">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
+          <AssociationSet Name="BookDeliveries" Association="Self.BookDeliveries">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="Delivery" EntitySet="Delivery" />
+          </AssociationSet>
+          <AssociationSet Name="BookGenre" Association="Self.BookGenre">
+            <End Role="Book" EntitySet="Book" />
+            <End Role="Genre" EntitySet="Genre" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище MISModelContainer" CdmEntityContainer="MISEntities">
+          <EntitySetMapping Name="Author">
+            <EntityTypeMapping TypeName="MISModel.Author">
+              <MappingFragment StoreEntitySet="Author">
+                <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Book">
+            <EntityTypeMapping TypeName="MISModel.Book">
+              <MappingFragment StoreEntitySet="Book">
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
+                <ScalarProperty Name="ShelfId" ColumnName="ShelfId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Pages" ColumnName="Pages" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PublisherId" ColumnName="PublisherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookShelf">
+            <EntityTypeMapping TypeName="MISModel.BookShelf">
+              <MappingFragment StoreEntitySet="BookShelf">
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
+                <ScalarProperty Name="ShelfId" ColumnName="ShelfId" />
+                <ScalarProperty Name="Counter" ColumnName="Counter" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Deliverier">
+            <EntityTypeMapping TypeName="MISModel.Deliverier">
+              <MappingFragment StoreEntitySet="Deliverier">
+                <ScalarProperty Name="DeliverierId" ColumnName="DeliverierId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Delivery">
+            <EntityTypeMapping TypeName="MISModel.Delivery">
+              <MappingFragment StoreEntitySet="Delivery">
+                <ScalarProperty Name="DeliveryId" ColumnName="DeliveryId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="WorkerId" ColumnName="WorkerId" />
+                <ScalarProperty Name="DeliverierId" ColumnName="DeliverierId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genre">
+            <EntityTypeMapping TypeName="MISModel.Genre">
+              <MappingFragment StoreEntitySet="Genre">
+                <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Post">
+            <EntityTypeMapping TypeName="MISModel.Post">
+              <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="PostId" ColumnName="PostId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Publsher">
+            <EntityTypeMapping TypeName="MISModel.Publsher">
+              <MappingFragment StoreEntitySet="Publsher">
+                <ScalarProperty Name="PublisherId" ColumnName="PublisherId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shelf">
+            <EntityTypeMapping TypeName="MISModel.Shelf">
+              <MappingFragment StoreEntitySet="Shelf">
+                <ScalarProperty Name="ShelfId" ColumnName="ShelfId" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="MISModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="PostId" ColumnName="PostId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="BookAuthor" TypeName="MISModel.BookAuthor" StoreEntitySet="BookAuthor">
+            <EndProperty Name="Author">
+              <ScalarProperty Name="AuthorId" ColumnName="AuthorId" />
+            </EndProperty>
+            <EndProperty Name="Book">
+              <ScalarProperty Name="BookId" ColumnName="BookId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="BookDeliveries" TypeName="MISModel.BookDeliveries" StoreEntitySet="BookDeliveries">
+            <EndProperty Name="Book">
+              <ScalarProperty Name="BookId" ColumnName="BookId" />
+            </EndProperty>
+            <EndProperty Name="Delivery">
+              <ScalarProperty Name="DeliveryId" ColumnName="DeliveryId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="BookGenre" TypeName="MISModel.BookGenre" StoreEntitySet="BookGenre">
+            <EndProperty Name="Book">
+              <ScalarProperty Name="BookId" ColumnName="BookId" />
+            </EndProperty>
+            <EndProperty Name="Genre">
+              <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

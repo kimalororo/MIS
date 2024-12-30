@@ -1,0 +1,131 @@
+﻿@model MIS.Models.ViewModels.BookVM
+
+@{
+    ViewBag.Title = "Создание книги";
+}
+
+<style>
+    .checkbox-container {
+        max-height: 100px;
+        max-width: 200px;
+        overflow-y: auto;
+        overflow-x: auto;
+        white-space: nowrap;
+        border: black;
+        border: 5px;
+        border: 2px solid #808080; 
+        border-radius: 5px; 
+        padding: 10px;
+    }
+
+    .form-check {
+        margin-right: 10px; 
+    }
+
+</style>
+
+<h2>Создание книги</h2>
+
+@using (Html.BeginForm("CreateBook", "Books", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Pages, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Pages, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Pages, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Year, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+            @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Авторы", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox-container">
+            @foreach (var author in Model.AuthorsList)
+            {
+                <label>
+                    <input type="checkbox" name="SelectedAuthorIds" value="@author.Value"
+                           @(Model.SelectedAuthorIds.Contains(Guid.Parse(author.Value)) ? "checked" : "") />
+                    @author.Text
+                </label><br />
+            }
+            @Html.ValidationMessageFor(model => model.SelectedAuthorIds, "", new { @class = "text-danger" })
+        
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Жанры", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox-container">
+                @foreach (var genre in Model.GenresList)
+                {
+                    <label>
+                        <input type="checkbox" name="SelectedGenreIds" value="@genre.Value"
+                               @(Model.SelectedGenreIds.Contains(Guid.Parse(genre.Value)) ? "checked" : "") />
+                        @genre.Text
+                    </label><br />
+                }
+                @Html.ValidationMessageFor(model => model.SelectedGenreIds, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Полки", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox-container">
+                @foreach (var shelf in Model.ShelfsList)
+                {
+                    <label>
+                        <input type="checkbox" name="SelectedShelfIds" value="@shelf.Value"
+                               @(Model.SelectedShelfIds.Contains(Guid.Parse(shelf.Value)) ? "checked" : "") />
+                        @shelf.Text
+                    </label><br />
+                }
+                @Html.ValidationMessageFor(model => model.SelectedShelfIds, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Издатель", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.SelectedPublisherId, Model.PublisherList, "Выберите издателя", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SelectedPublisherId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-primary" style="margin-top:10px">Сохранить</button>
+            <a href="@Url.Action("FirstViewMethod", "Books")" class="btn btn-secondary" style="margin-top:10px">Отмена</a>
+        </div>
+    </div>
+}

@@ -1,0 +1,61 @@
+﻿@model MIS.Models.ViewModels.EditUserVM
+
+@{
+    ViewBag.Title = "Create New User";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Create New User</h2>
+
+    @using (Html.BeginForm("CreateUser", "Users", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Login, "Логин", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите логин" } })
+                    @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger small" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Password, "Пароль", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", type = "Введите пароль", placeholder = "Enter password" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger small" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.FirstName, "Имя", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите имя" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger small" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.LastName, "Фамилия", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите фамилию" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger small" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Patronymic, "Отчество", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.Patronymic, new { htmlAttributes = new { @class = "form-control", placeholder = "Введите отчество" } })
+                    @Html.ValidationMessageFor(model => model.Patronymic, "", new { @class = "text-danger small" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.SelectedPostId, "Должность", htmlAttributes: new { @class = "form-label" })
+                    @Html.DropDownListFor(model => model.SelectedPostId, Model.Posts, "Выберите должность", new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.SelectedPostId, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <div class="card-footer text-end">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="@Url.Action("ShowUsers", "Users")" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    }
+</div>

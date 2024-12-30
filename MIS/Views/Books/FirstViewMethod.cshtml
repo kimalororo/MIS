@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MIS.Models.Entities.Book>
+
+<h2>Самые популярные</h2>
+
+<div style="margin-bottom: 20px;">
+    <form method="get" action="@Url.Action("FirstViewMethod", "Books")">
+        <input type="text" name="search" placeholder="Поиск по названию книги" value="@Request.QueryString["search"]" style="padding: 5px; width: 300px; border-radius:5px" />
+        <select name="genre" style="padding: 6px; border-radius: 5px;">
+            <option value="">Выберите жанр</option>
+            @foreach (var genre in Model.SelectMany(b => b.Genre).Select(g => g.Name).Distinct())
+            {
+                <option value="@genre" @(Request.QueryString["genre"] == genre ? "selected" : "")>@genre</option>
+            }
+        </select>
+        <input type="number" name="year" placeholder="Год выпуска" value="@Request.QueryString["year"]"  style="padding: 5px; width: 120px; border-radius: 5px" />
+        <button type="submit" class="btn btn-dark"; margin-left: 10px;">Найти</button>
+        <a href="@Url.Action("FirstViewMethod", "Books")" class="btn btn-danger">Сбросить</a>
+    </form>
+</div>
+
+<a href="@Url.Action("CreateBook", "Books")" class="btn btn-success">Добавить</a>
+
+<div>
+    </br>
+    @foreach (var book in Model)
+    {
+        <div style="display: inline-block; margin: 5px; width: 30%; height: 300px; border: 3px solid black; border-radius:10px; text-align:center; align-content:center">
+            <h4>@book.Name</h4>
+            <p>Год выпуска: @book.Year.Year</p>
+            <p>Количество страниц: @book.Pages</p>
+            <p>Цена: @book.Price руб.</p>
+            @Html.ActionLink("Открыть", "ViewBook", new { BookId = book.BookId }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Удалить", "DeleteBook", new { BookId = book.BookId }, new { @class = "btn btn-secondary" })
+        </div>
+    }
+</div>
+
+

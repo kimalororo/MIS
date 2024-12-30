@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="da4cdeff16204abf85cb335ba4b06eb2" Name="Diagram1">
+        <EntityTypeShape EntityType="MISModel.Author" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MISModel.Book" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MISModel.BookShelf" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MISModel.Deliverier" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MISModel.Delivery" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MISModel.Genre" Width="1.5" PointX="5.25" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MISModel.Post" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MISModel.Publsher" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MISModel.Shelf" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MISModel.User" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
+        <AssociationConnector Association="MISModel.Book_is_published_by_publisher" ManuallyRouted="false" />
+        <AssociationConnector Association="MISModel.Books_located_on_shelfes" ManuallyRouted="false" />
+        <AssociationConnector Association="MISModel.Shelf_contains_books" ManuallyRouted="false" />
+        <AssociationConnector Association="MISModel.Deliverier_deliveres_books" ManuallyRouted="false" />
+        <AssociationConnector Association="MISModel.User_accepted_the_delivery" ManuallyRouted="false" />
+        <AssociationConnector Association="MISModel.User_is_in_post" ManuallyRouted="false" />
+        <AssociationConnector Association="MISModel.BookAuthor" ManuallyRouted="false" />
+        <AssociationConnector Association="MISModel.BookDeliveries" ManuallyRouted="false" />
+        <AssociationConnector Association="MISModel.BookGenre" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

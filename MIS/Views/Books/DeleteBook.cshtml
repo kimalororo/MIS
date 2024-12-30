@@ -1,0 +1,48 @@
+﻿@model MIS.Models.ViewModels.BookVM
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h2>Удалить книгу: <strong>@Model.Name</strong></h2>
+        </div>
+        <div class="card-body">
+            <h4>Вы уверены, что хотите удалить книгу <strong>@Model.Name</strong>?</h4>
+            <hr />
+            <p><strong>Год выпуска:</strong> @Model.Year.Year</p>
+            <p><strong>Количество страниц:</strong> @Model.Pages</p>
+            <p><strong>Цена:</strong> @Model.Price руб.</p>
+
+            <!-- Авторы -->
+            <h5 class="mt-4">Авторы:</h5>
+            <ul class="list-group">
+                @foreach (var author in Model.AuthorsList)
+                {
+                    <li class="list-group-item border-2">@author.Text</li>
+                }
+            </ul>
+
+            <!-- Жанры -->
+            <h5 class="mt-4">Жанры:</h5>
+            <ul class="list-group">
+                @foreach (var genre in Model.GenresList)
+                {
+                    <li class="list-group-item border-2">@genre.Text</li>
+                }
+            </ul>
+
+            <div class="mt-4 d-flex justify-content-between">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.BookId)
+                    <button type="submit" class="btn btn-danger btn-lg">
+                        <i class="fas fa-trash-alt"></i> Удалить
+                    </button>
+                }
+                <a href="@Url.Action("FirstViewMethod", "Books")" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-times"></i> Отменить
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

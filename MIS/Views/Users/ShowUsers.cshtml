@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MIS.Models.Entities.User>
+
+@{
+    ViewBag.Title = "ShowUsers";
+}
+
+<h2>Список пользователей</h2>
+
+<p>
+    @Html.ActionLink("Создать нового пользователя", "CreateUser", null, new { @class = "btn btn-primary" })
+</p>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">@item.LastName @item.FirstName @item.Patronymic</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <strong>Login:</strong> @item.Login <br />
+                        @if (item.PostId == new Guid("cb694f1d-430b-4b4f-8f76-a4d1e1c02550"))
+                        {
+                            <strong>Должность: Продавец</strong> <br />
+                        }
+                        else
+                        {
+                            <strong>Должность: Администратор</strong> <br />
+                        }
+                    </p>
+                        @Html.ActionLink("Изменить", "UserDetails", new { id = item.UserId }, new { @class = "btn btn-secondary" })
+                        |
+                        @Html.ActionLink("Удалить", "DeleteUser", new { id = item.UserId }, new { @class = "btn btn-danger" })
+                    </div>
+                </div>
+            </div>
+        }
+</div>

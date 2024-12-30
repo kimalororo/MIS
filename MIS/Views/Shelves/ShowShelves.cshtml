@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MIS.Models.ViewModels.ShelfVM>
+
+@{
+    ViewBag.Title = "Cтеллажи";
+}
+
+<h2>Стелллажи</h2>
+
+<div style="margin-bottom: 20px;">
+    <form method="get" action="@Url.Action("ShowShelves", "Shelves")">
+        <input type="text" name="search" placeholder="Поиск по названию" value="@Request.QueryString["search"]" style="padding: 6px; width: 300px; border-radius:5px" />
+        <button type="submit" class="btn btn-dark">Найти</button>
+        |
+        <a href="@Url.Action("ShowShelves", "Shelves")" class="btn btn-danger">Сбросить</a>
+    </form>
+</div>
+<p>
+    <a href="@Url.Action("CreateShelf", "Shelves")" class="btn btn-success">Добавить</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <div style="display: inline-block; margin: 10px; width: 30%; height: 300px; border: 3px solid black; border-radius:10px; text-align:center; align-content:center">
+            <h4>@Html.DisplayFor(modelItem => item.Location)</h4>
+            <p>Наполненность - @Html.DisplayFor(modelItem => (item.TotalBooks )) / 200</p>
+        @Html.ActionLink("Edit", "EditShelf", new { id = item.ShelfId }, new {@class = "btn btn-secondary"}) |
+        @Html.ActionLink("Delete", "DeleteShelf", new { id = item.ShelfId }, new {@class = "btn btn-danger"})
+        </div>
+    }
+
+</table>

@@ -1,0 +1,62 @@
+﻿@model MIS.Models.ViewModels.EditShelfWithBooksVM
+
+@{
+    ViewBag.Title = "Edit Shelf with Books";
+}
+
+<h2>Изменение стеллажа</h2>
+
+@using (Html.BeginForm("EditShelf", "Shelves", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.ShelfId)
+
+    <div class="form-group">
+        <label for="Location">Название</label>
+        @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Location, null, new { @class = "text-danger" })
+    </div>
+    <br />
+    <h3>Книги на стеллаже</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Название книги</th>
+                <th>Количество экземпляров</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.BooksOnShelf.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(m => m.BooksOnShelf[i].BookId)
+                        @Html.DisplayFor(m => m.BooksOnShelf[i].BookName)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.BooksOnShelf[i].Counter, new { @class = "form-control", type = "number", min = "0" })
+                        @Html.ValidationMessageFor(m => m.BooksOnShelf[i].Counter, null, new { @class = "text-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <label for="NewBookId">Добавление книги</label>
+        @Html.DropDownList("NewBookId", ViewBag.BooksList as SelectList, "Select a book", new { @class = "form-control" })
+        @Html.TextBox("NewBookCounter", "1", new { @class = "form-control", type = "number", min = "1", style = "margin-top: 10px;" })
+        <button type="submit" class="btn btn-success" name="action" value="addBook" style="margin-top: 10px">Добавить книгу</button>
+    </div>
+    <button type="submit" class="btn btn-primary" name="action" value="saveShelf" style="margin-top:10px">Сохранить</button>
+    <a href="@Url.Action("ShowShelves", "Shelves")" class="btn btn-secondary" style="margin-top:10px">Отмена</a>
+}
+
+<script>
+    function removeBook(index) {
+        document.querySelector(`[name="BooksOnShelf[${index}].Counter"]`).value = 0;
+        document.querySelector(`[name="BooksOnShelf[${index}].BookId"]`).value = "";
+        document.querySelector(`[name="BooksOnShelf[${index}].BookName"]`).closest('tr').style.display = 'none';
+    }
+</script>

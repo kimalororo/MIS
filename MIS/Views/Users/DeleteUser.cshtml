@@ -1,0 +1,30 @@
+﻿@model MIS.Models.Entities.User
+
+@{
+    ViewBag.Title = "Delete User";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center text-danger">Удалить пользователя</h2>
+    <div class="alert alert-warning text-center">
+        Вы уверены, что хотите удалить этого пользователя?
+    </div>
+
+    <div class="card shadow-sm mt-3">
+        <div class="card-body">
+            <p><strong>Имя:</strong> @Html.DisplayFor(model => model.FirstName)</p>
+            <p><strong>Фамилия:</strong> @Html.DisplayFor(model => model.LastName)</p>
+            <p><strong>Логин:</strong> @Html.DisplayFor(model => model.Login)</p>
+        </div>
+
+        <div class="card-footer text-end">
+            @using (Html.BeginForm("DeleteUser", "Users", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.UserId)
+                <button type="submit" class="btn btn-danger">Удалить</button>
+                <a href="@Url.Action("ShowUsers", "Users")" class="btn btn-secondary">Отмена</a>
+            }
+        </div>
+    </div>
+</div>
